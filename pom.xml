@@ -258,6 +258,6 @@
 		<module>api-gateway</module>
 		<module>eureka-server</module>
 		<module>microservice-tweet</module>
-		<!--module>microservice-user-subscription</module-->
+		<module>microservice-user-subscription</module>
 	</modules>
 </project>

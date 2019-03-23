@@ -1,16 +1,32 @@
 package com.cognizant.socma.ms.gateway;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class ZuulProxyApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+  @Test
+  public void contextLoads() {
+
+    final String line = "#food was testy. #drink lots of. #night was fab. #three #four";
+
+    final Pattern pattern = Pattern.compile("#\\w+");
+
+    final Matcher matcher = pattern.matcher(line);
+    while (matcher.find()) {
+      System.out.println(matcher.group().replaceAll("#", ""));
+    }
+  }
+
+  // private Set<String> retrieveHashTags(final String message) {
+  //
+  // if (StringUtils.isBlank(message)) {
+  // return Collections.emptySet();
+  // }
+  //
+  // StringUtils.be
+  // return null;
+  // }
 
 }
