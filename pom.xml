@@ -118,10 +118,10 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!--dependency>
+		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-		</dependency-->
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -257,7 +257,7 @@
 	<modules>
 		<module>api-gateway</module>
 		<module>eureka-server</module>
-		<!--module>microservice-tweet</module>
-		<module>microservice-user-subscription</module-->
+		<module>microservice-tweet</module>
+		<!--module>microservice-user-subscription</module-->
 	</modules>
 </project>

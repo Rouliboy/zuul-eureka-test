@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8500
 
 eureka:
   instance:
@@ -10,11 +10,6 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
-zuul:
-  #Service will be mapped under the /api URI
-  prefix: /api
-#  Uncomment to disable auto-registering all services read from Eureka
-#  ignoredServices: '*'
 spring:
   application:
-    name: Zuul API Gateway
+    name: tweet-service
