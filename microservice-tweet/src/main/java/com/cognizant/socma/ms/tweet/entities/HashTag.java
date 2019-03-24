@@ -24,7 +24,7 @@ public class HashTag {
   @GeneratedValue
   private Long id;
 
-  @Column(length = 256, nullable = false)
+  @Column(unique = true, length = 256, nullable = false)
   private String value;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hashtags")

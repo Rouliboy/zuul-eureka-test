@@ -37,7 +37,7 @@ public class Tweet {
   @Column(name = "message", length = 256, nullable = false)
   private String message;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(name = "tweets_hashtags", joinColumns = @JoinColumn(name = "tweet_id"),
       inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
   Set<HashTag> hashtags = new HashSet<>();
