@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TweetResponseDto {
 
-  private Long userId;
+  private long userId;
 
   private Instant creationDateTime;
 

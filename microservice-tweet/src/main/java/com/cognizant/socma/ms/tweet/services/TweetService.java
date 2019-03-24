@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.cognizant.socma.ms.tweet.dto.TweetDto;
+import com.cognizant.socma.ms.tweet.dto.TweetCreationDto;
 import com.cognizant.socma.ms.tweet.entities.Hashtag;
 import com.cognizant.socma.ms.tweet.entities.Tweet;
 import com.cognizant.socma.ms.tweet.repositories.HashtagRepository;
@@ -25,26 +25,26 @@ public class TweetService {
 
   private final TweetRepository tweetRepository;
 
-  private final HashtagRepository hashTagRepository;
+  private final HashtagRepository hashtagRepository;
 
-  private final HashtagExtractor hashTagExtractor;
+  private final HashtagExtractor hashtagExtractor;
 
   @Transactional
-  public void createTweet(final TweetDto tweetDto) {
+  public void createTweet(final TweetCreationDto tweetDto) {
 
     final Tweet tweet = new Tweet();
     tweet.setCreationDateTime(Instant.now());
     tweet.setMessage(tweetDto.getMessage());
     tweet.setUserId(tweetDto.getUserId());
 
-    final Set<String> hashTagsStr = hashTagExtractor.extractHashtagsFrom(tweetDto.getMessage());
+    final Set<String> hashTagsStr = hashtagExtractor.extractHashtagsFrom(tweetDto.getMessage());
 
     log.info("Hashtags from message : {}", hashTagsStr);
 
     final Set<Hashtag> hashtags = new HashSet<>();
     for (final String ht : hashTagsStr) {
 
-      final Optional<Hashtag> optionalHashtag = hashTagRepository.findByValue(ht);
+      final Optional<Hashtag> optionalHashtag = hashtagRepository.findByValueIgnoreCase(ht);
       final Hashtag htEntity;
       if (optionalHashtag.isPresent()) {
         log.info("Hashtag {} exists", ht);
@@ -68,13 +68,11 @@ public class TweetService {
     if (StringUtils.isBlank(hashTag)) {
       return Collections.emptyList();
     }
-    log.info("Searching tweets with hashtag {}", hashTag);
     return tweetRepository.findByHashtagIgnoreCase(hashTag);
   }
 
-  public List<Tweet> getTweetsFromUser(final long userId) {
-    log.info("Searching tweets from user {}", userId);
-    return tweetRepository.findByUserIdOrderByCreationDateTime(userId);
+  public List<Tweet> getTweetsFromUsers(final List<Long> userIds) {
+    return tweetRepository.findByUserIdsOrderByCreationDateTime(userIds);
   }
 
 }

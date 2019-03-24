@@ -8,5 +8,5 @@ import com.cognizant.socma.ms.tweet.entities.Hashtag;
 @Repository
 public interface HashtagRepository extends CrudRepository<Hashtag, Long> {
 
-  Optional<Hashtag> findByValue(final String value);
+  Optional<Hashtag> findByValueIgnoreCase(final String value);
 }

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,9 +23,12 @@ public class Hashtag {
 
   @Column(unique = true, length = 256, nullable = false)
   private String value;
-  //
-  // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hashtags")
-  // Set<Tweet> tweets = new HashSet<>();
+
+  @PrePersist
+  public void prePersist() {
+    if (null != value) {
+      value = value.toLowerCase();
+    }
+  }
 
 }
-

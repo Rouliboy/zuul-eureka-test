@@ -12,5 +12,6 @@ public interface TweetRepository extends CrudRepository<Tweet, Long> {
   @Query("SELECT t FROM Tweet t INNER JOIN t.hashtags h WHERE LOWER(h.value) = LOWER(:hashtag) order by t.creationDateTime DESC")
   List<Tweet> findByHashtagIgnoreCase(final String hashtag);
 
-  List<Tweet> findByUserIdOrderByCreationDateTime(long userId);
+  @Query("SELECT t FROM Tweet t WHERE t.userId in :userIds order by t.creationDateTime DESC")
+  List<Tweet> findByUserIdsOrderByCreationDateTime(List<Long> userIds);
 }
