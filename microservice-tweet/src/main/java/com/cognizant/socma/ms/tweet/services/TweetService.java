@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cognizant.socma.ms.tweet.dto.TweetCreationDto;
@@ -73,6 +74,14 @@ public class TweetService {
 
   public List<Tweet> getTweetsFromUsers(final List<Long> userIds) {
     return tweetRepository.findByUserIdsOrderByCreationDateTime(userIds);
+  }
+
+  public void deleteTweet(final long id) {
+    try {
+      tweetRepository.deleteById(id);
+    } catch (final EmptyResultDataAccessException ex) {
+      log.warn("Tweet with id {} does not exist or is already deleted", id);
+    }
   }
 
 }
