@@ -32,3 +32,8 @@ spring:
     console:
       enabled: true
       path: /h2
+      
+# Increase timeout to prevent hystrix error on first call
+ribbon:
+  eager-load:
+    enabled: true

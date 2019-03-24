@@ -18,7 +18,19 @@ zuul:
   #prefix: /api
 #  Uncomment to disable auto-registering all services read from Eureka
 #  ignoredServices: '*'
+  ribbon:
+    eager-load:
+      enabled: true
+      clients : tweet-service,user-servicee
 
 spring:
   application:
     name: api-gateway
+
+# Increase timeout to prevent hystrix error on first call
+ribbon:
+  eager-load:
+    enabled: true
+  ReadTimeout: 5000
+  clients : tweet-service,user-service
+  ConnectTimeout: 5000
