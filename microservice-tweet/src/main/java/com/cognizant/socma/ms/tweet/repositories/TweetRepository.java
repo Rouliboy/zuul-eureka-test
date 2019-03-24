@@ -9,6 +9,8 @@ import com.cognizant.socma.ms.tweet.entities.Tweet;
 @Repository
 public interface TweetRepository extends CrudRepository<Tweet, Long> {
 
-  @Query("SELECT t FROM Tweet t INNER JOIN t.hashtags h WHERE LOWER(h.value) = LOWER(:hashTag)")
-  List<Tweet> findByHashTagIgnoreCase(final String hashTag);
+  @Query("SELECT t FROM Tweet t INNER JOIN t.hashtags h WHERE LOWER(h.value) = LOWER(:hashtag) order by t.creationDateTime DESC")
+  List<Tweet> findByHashtagIgnoreCase(final String hashtag);
+
+  List<Tweet> findByUserIdOrderByCreationDateTime(long userId);
 }

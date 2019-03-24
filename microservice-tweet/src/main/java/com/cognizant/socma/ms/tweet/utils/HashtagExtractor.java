@@ -9,11 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HashTagExtractor {
+public class HashtagExtractor {
 
   private static final Pattern HASHTAG_PATTERN = Pattern.compile("#\\w+");
 
-  public Set<String> extractHashTagsFrom(final String message) {
+  public Set<String> extractHashtagsFrom(final String message) {
 
     if (StringUtils.isBlank(message)) {
       return Collections.emptySet();

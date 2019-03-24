@@ -12,7 +12,7 @@ eureka:
 
 zuul:
   #Service will be mapped under the /api URI
-  prefix: /api
+  #prefix: /api
 #  Uncomment to disable auto-registering all services read from Eureka
 #  ignoredServices: '*'
 spring:

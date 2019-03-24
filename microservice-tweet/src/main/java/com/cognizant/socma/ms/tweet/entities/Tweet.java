@@ -29,7 +29,7 @@ public class Tweet {
   private Long id;
 
   @Column(nullable = false)
-  private Long userId;
+  private long userId;
 
   @Column(nullable = false)
   private Instant creationDateTime;
@@ -40,7 +40,7 @@ public class Tweet {
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(name = "tweets_hashtags", joinColumns = @JoinColumn(name = "tweet_id"),
       inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
-  Set<HashTag> hashtags = new HashSet<>();
+  Set<Hashtag> hashtags = new HashSet<>();
 
 }
 

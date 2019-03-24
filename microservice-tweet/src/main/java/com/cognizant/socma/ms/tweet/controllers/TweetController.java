@@ -39,22 +39,34 @@ public class TweetController {
     return ResponseEntity.ok("created");
   }
 
-  @GetMapping("/create/{hashTag}")
-  public ResponseEntity<String> create(@PathVariable final String hashTag) {
+  // @GetMapping("/create/{hashtag}")
+  // public ResponseEntity<String> create(@PathVariable final String hashtag) {
+  //
+  //
+  // final String message = "Mon tweet #" + hashtag;
+  // final TweetDto tweetDto = new TweetDto(1L, message);
+  // tweetService.createTweet(tweetDto);
+  // return ResponseEntity.ok("created");
+  // }
 
-
-    final String message = "Mon tweet #" + hashTag;
-    final TweetDto tweetDto = new TweetDto(1L, message);
-    tweetService.createTweet(tweetDto);
-    return ResponseEntity.ok("created");
-  }
-
-  @GetMapping("/hashtag/{hashTag}")
-  public ResponseEntity<List<TweetResponseDto>> getTweetsWithHashTag(
-      @PathVariable final String hashTag) {
+  @GetMapping("/user/{userId}")
+  public ResponseEntity<List<TweetResponseDto>> getTweetsFromUser(@PathVariable final long userId) {
 
     // @formatter:off
-    final List<TweetResponseDto> tweets = tweetService.getTweetsWithHashTag(hashTag)
+    final List<TweetResponseDto> tweets = tweetService.getTweetsFromUser(userId)
+        .stream()
+        .map(toResponseDto())
+        .collect(Collectors.toList());
+    // @formatter:on
+    return ResponseEntity.ok(tweets);
+  }
+
+  @GetMapping("/hashtag/{hashtag}")
+  public ResponseEntity<List<TweetResponseDto>> getTweetsWithHashtag(
+      @PathVariable final String hashtag) {
+
+    // @formatter:off
+    final List<TweetResponseDto> tweets = tweetService.getTweetsWithHashtag(hashtag)
         .stream()
         .map(toResponseDto())
         .collect(Collectors.toList());
@@ -64,7 +76,7 @@ public class TweetController {
 
   private Function<Tweet, TweetResponseDto> toResponseDto() {
     return t -> {
-      return new TweetResponseDto(t.getId(), t.getCreationDateTime(), t.getMessage());
+      return new TweetResponseDto(t.getUserId(), t.getCreationDateTime(), t.getMessage());
     };
   }
 

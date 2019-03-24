@@ -10,11 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cognizant.socma.ms.tweet.dto.TweetDto;
-import com.cognizant.socma.ms.tweet.entities.HashTag;
+import com.cognizant.socma.ms.tweet.entities.Hashtag;
 import com.cognizant.socma.ms.tweet.entities.Tweet;
-import com.cognizant.socma.ms.tweet.repositories.HashTagRepository;
+import com.cognizant.socma.ms.tweet.repositories.HashtagRepository;
 import com.cognizant.socma.ms.tweet.repositories.TweetRepository;
-import com.cognizant.socma.ms.tweet.utils.HashTagExtractor;
+import com.cognizant.socma.ms.tweet.utils.HashtagExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +25,9 @@ public class TweetService {
 
   private final TweetRepository tweetRepository;
 
-  private final HashTagRepository hashTagRepository;
+  private final HashtagRepository hashTagRepository;
 
-  private final HashTagExtractor hashTagExtractor;
+  private final HashtagExtractor hashTagExtractor;
 
   @Transactional
   public void createTweet(final TweetDto tweetDto) {
@@ -37,40 +37,44 @@ public class TweetService {
     tweet.setMessage(tweetDto.getMessage());
     tweet.setUserId(tweetDto.getUserId());
 
-    final Set<String> hashTagsStr = hashTagExtractor.extractHashTagsFrom(tweetDto.getMessage());
+    final Set<String> hashTagsStr = hashTagExtractor.extractHashtagsFrom(tweetDto.getMessage());
 
     log.info("Hashtags from message : {}", hashTagsStr);
 
-    final Set<HashTag> hashtags = new HashSet<>();
+    final Set<Hashtag> hashtags = new HashSet<>();
     for (final String ht : hashTagsStr) {
 
-      final Optional<HashTag> optionalHashTag = hashTagRepository.findByValue(ht);
-      final HashTag htEntity;
-      if (optionalHashTag.isPresent()) {
+      final Optional<Hashtag> optionalHashtag = hashTagRepository.findByValue(ht);
+      final Hashtag htEntity;
+      if (optionalHashtag.isPresent()) {
         log.info("Hashtag {} exists", ht);
-        htEntity = optionalHashTag.get();
+        htEntity = optionalHashtag.get();
       } else {
         log.info("Hashtag {} does not exist", ht);
-        htEntity = new HashTag();
+        htEntity = new Hashtag();
         htEntity.setValue(ht);
       }
-      htEntity.getTweets().add(tweet);
+      // htEntity.getTweets().add(tweet);
       hashtags.add(htEntity);
     }
     tweet.setHashtags(hashtags);
 
-    // FIXME : it always insert new hashtag
     tweetRepository.save(tweet);
 
   }
 
-  public List<Tweet> getTweetsWithHashTag(final String hashTag) {
+  public List<Tweet> getTweetsWithHashtag(final String hashTag) {
 
     if (StringUtils.isBlank(hashTag)) {
       return Collections.emptyList();
     }
     log.info("Searching tweets with hashtag {}", hashTag);
-    return tweetRepository.findByHashTagIgnoreCase(hashTag);
+    return tweetRepository.findByHashtagIgnoreCase(hashTag);
+  }
+
+  public List<Tweet> getTweetsFromUser(final long userId) {
+    log.info("Searching tweets from user {}", userId);
+    return tweetRepository.findByUserIdOrderByCreationDateTime(userId);
   }
 
 }
