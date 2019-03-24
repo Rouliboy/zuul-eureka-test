@@ -10,11 +10,15 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
+
 zuul:
+  # Remove authorization headers from sensitive headers (set by default)
+  sensitive-headers: Cookie,Set-Cookie
   #Service will be mapped under the /api URI
   #prefix: /api
 #  Uncomment to disable auto-registering all services read from Eureka
 #  ignoredServices: '*'
+
 spring:
   application:
     name: api-gateway
