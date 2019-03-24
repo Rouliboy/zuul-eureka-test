@@ -1,12 +1,15 @@
 package com.cognizant.socma.ms.tweet.dto;
 
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
-@NoArgsConstructor
+@Value
+@AllArgsConstructor(onConstructor = @__(@JsonCreator))
+@Builder
 public class TweetDto {
 
   @NotNull
