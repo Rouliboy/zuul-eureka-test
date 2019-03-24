@@ -14,8 +14,17 @@
 	<artifactId>microservice-tweet</artifactId>
 	<name>Cognizant :: Social Media :: Tweet</name>
 
+	<properties>
+		<shared.version>1.0.0</shared.version>
+	</properties>
 
 	<dependencies>
+	
+		<dependency>
+			<groupId>com.cognizant.socma</groupId>
+			<artifactId>shared</artifactId>
+			<version>${shared.version}</version>
+		</dependency>
 
 		<!-- Netflix -->
 		<dependency>

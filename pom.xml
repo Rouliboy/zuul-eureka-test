@@ -255,6 +255,7 @@
 	</profiles>
 
 	<modules>
+		<module>shared</module>
 		<module>api-gateway</module>
 		<module>eureka-server</module>
 		<module>microservice-tweet</module>
